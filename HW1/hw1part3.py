@@ -7,6 +7,7 @@ import re
 import sys
 import os
 import operator
+import math
 
 def stripSGML(input):
     pattern = re.sub("<[^<]+?>","",input)
@@ -52,9 +53,12 @@ def isStopword(word):
     return False
 
 
+
 num_words = 0
 worddic = {}
 print
+
+iter_num = 0
 for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
     words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
     readfile = words.read()
@@ -71,56 +75,64 @@ for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
             else:
                 worddic[word] = 1
     num_words += len(words)
-
-print "{}{}{}".format("There are ",num_words," words total in the collection")
-print
-print "{}{}{}".format("There are ",len(worddic)," unique words total in the collection")
-print
-print "{}".format("The top 20 words are:")
-print
-############################################################
-iters = 0
-stopword20 = []
-goword20 = []
-sorted_count = sorted(worddic.iteritems(), key=operator.itemgetter(1), reverse=True)
-for word, times in sorted_count:
-    if isStopword(word):
-        print "#%d. \"%s\" ----- found %d times" % (iters+1,word, times)
-        stopword20.append(word)
-    else:   
-        print "#%d. \"%s\" ----- found %d times" % (iters+1,word, times)
-        goword20.append(word)
-    iters+=1
-    if iters>19:
-        print
+    iter_num+=1
+    if iter_num>100:
         break
 
-print "{}".format("According to the class provided stopword list, the following of those top 20 are stopwords:")
-print stopword20
-print
-print "{}".format("And the following words are not:")
-print goword20
-print
 
-final_number = num_words/4
-running_total_words = 0
+
+print "{}{}{}{}{}{}{}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
+n1 = num_words
+v1 = len(worddic)
+
+
+num_words = 0
+worddic = {}
+
+
 iter_num = 0
-for word,times in sorted_count:
-    iter_num += 1
-    running_total_words += times
-    if running_total_words>final_number:
-        print "{}{}".format(iter_num," UNIQUE WORDS ----- is the minimum number of unique words to account for 25 percent of total words")
-        print "{}{}{}{}{}{}{}".format("25% of the total words is equal to ",final_number," words and ",iter_num," unique words account for ",running_total_words, " total words")
-
-        print
+for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
+    words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
+    readfile = words.read()
+    readfile = stripSGML(readfile)
+    readfile = spacePeriod(readfile)
+    readfile = spaceCommaApos(readfile)
+    readfile = removePunc(readfile)
+    #possibly remove numbers
+    
+    words = readfile.split()
+    for word in words:
+            if word in worddic:
+                worddic[word] += 1
+            else:
+                worddic[word] = 1
+    num_words += len(words)
+    iter_num+=1
+    if iter_num>500:
         break
 
 
+print "{}{}{}{}{}{}{}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
+print
+n2 = num_words
+v2 = len(worddic)
+
+logn1 = math.log(n1)
+logn2 = math.log(n2)
+logv1 = math.log(v1)
+logv2 = math.log(v2)
+
+beta = (logv2 - logv1)/(logn2- logn1)
+K = v1/(n1**beta)
 
 
-
-
-    
+print "{}".format("We now have two sets of data so we can calculate constants K and beta using:")
+print "{}{}{}{}".format("N1 = ",n1," and V1 = ",v1)
+print "{}{}{}{}".format("N2 = ",n2," and V2 = ",v2)
+print
+print "{}".format("After solving that system of equations using Heap's Law, we can determine the constants:")
+print "{}{}{}{}".format("K = ",K," and beta = ",beta)
+print
 
 
 

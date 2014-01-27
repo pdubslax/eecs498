@@ -133,6 +133,14 @@ print
 print "{}".format("After solving that system of equations using Heap's Law, we can determine the constants:")
 print "{}{}{}{}".format("K = ",K," and beta = ",beta)
 print
+mil_result = int((1000000**beta)*K)
+hun_mil_result = int((100000000**beta)*K)
+
+print "{}".format("We can now plug our constants into the Heap's Law equation to predict that:")
+print "{}{}{}".format("Corpus size of 1,000,000 words, the vocabulary size would be around ",mil_result," unique words")
+print "{}{}{}".format("Corpus size of 100,000,000 words, the vocabulary size would be around ",hun_mil_result," unique words")
+print
+
 
 
 

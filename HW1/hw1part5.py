@@ -9,11 +9,27 @@ import os
 
 
 def crawl(page):
+	
+
+
 	newfoundlinks = []
+
 	page = requests.get(page) 
 	tree = html.fromstring(page.text)
+
+
+
 	for link in tree.iterlinks(): 
-		if link[2].startswith("http://www.eecs.umich.edu") and link[2].endswith("html") :
+		if (('.umich.edu' in link[2]) and ('.js' not in link[2]) 
+			and ('.css' not in link[2]) and ((link[2].endswith(".html") 
+			or link[2].endswith(".htm"))or( link[2].endswith(".txt")==False
+			and  link[2].endswith(".mov")==False and  link[2].endswith(".gif")==False 
+			and  link[2].endswith(".rss")==False and  link[2].endswith(".mp4")==False 
+			and  link[2].endswith(".jpg")==False and  link[2].endswith(".doc")==False 
+			and  link[2].endswith(".jpeg")==False and  link[2].endswith(".ogv")==False 
+			and  link[2].endswith(".pdf")==False and link[2].endswith(".png")==False 
+			and link[2].endswith(".css")==False and link[2].endswith(".js")==False 
+			and link[2].endswith(".ico")==False and link[2].endswith(".xml")==False))):
 			newfoundlinks.append(link[2])
 	return newfoundlinks
 			 
@@ -21,43 +37,36 @@ def crawl(page):
 
 
 	 
-page = requests.get('http://www.eecs.umich.edu') 
-tree = html.fromstring(page.text) 
+
 found_links = ["http://www.eecs.umich.edu"]
-searched_links = ["http://www.eecs.umich.edu"]
-
-for link in tree.iterlinks(): 
- if link[2].startswith("http://www.eecs.umich.edu") and (link[2] not in searched_links) and link[2].endswith("html") :
- 	found_links.append(link[2])
- 	
 past_num = len(found_links)
-while len(found_links)<1500:
-	past_num = len(found_links)
-	print len(found_links)
+function_list = []
+end_condition = False
 
-	return_list = []
+while True:
+
 	
-	for all_found in found_links:
-		function_list = []
-		if all_found not in searched_links:
-			searched_links.append(all_found)
-			function_list = crawl(all_found)
-		return_list = return_list + function_list
 
-	#here you have this return_list of all links after searching one layer
-	for boom in return_list:
-		if boom not in found_links:
-			found_links.append(boom)
+	for all_found in found_links:	
+		function_list = crawl(all_found)
+		for boom in function_list:
+			if boom not in found_links:
+				found_links.append(boom)
+				#print boom
+				if len(found_links)>1500:
+					end_condition = True
+			if end_condition:
+				break
+		function_list[:]
+		if end_condition:
+			break
 
-	if past_num==len(found_links):
-		for link in found_links:
-			print link
+	if end_condition:
 		break
 
 
- 	
- 
-
+for gdg in found_links:
+	print gdg
 
 
 

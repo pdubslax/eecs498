@@ -385,7 +385,7 @@ stopwordlist = ["a","all","an","and","any","are","as","be","been",
 "i","in","is","it","its","many","me","my","none","of","on","or", 
 "our","she","some","the","their","them","there","they","that", 
 "this","us","was","what","when","where","which","who","why","will", 
-"with","you","your"]
+"with","you","your","to","at","from"]
 
 def isStopword(word):
     for stopword in stopwordlist:

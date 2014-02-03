@@ -38,13 +38,14 @@ def removePunc(input):
 
 print
 tokenlist = []
-for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
-    words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
+
+for filename in os.listdir('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'):
+    words = open('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'+'/'+filename,'r')
     readfile = words.read()
     readfile = stripSGML(readfile)
     readfile = spacePeriod(readfile)
     readfile = spaceCommaApos(readfile)
-    readfile = removePunc(readfile)
+    #readfile = removePunc(readfile)
     words = readfile.split()
     tokenlist.append(words)
 

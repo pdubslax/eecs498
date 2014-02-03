@@ -7,6 +7,7 @@ import requests
 import re
 import sys
 import os
+import robotparser
 
 
 
@@ -19,8 +20,10 @@ def crawl(page):
 		or page == "http://http://www.eecs.umich.edu/eecs/academics/courses/eecs-461.html/eecs/academics/courses/course.html?id=23"):
 		return newfoundlinks
 
-
+	#the following line is the timer to respect servers and not DoS
+	#can be commented out if you wish to crawl 1500 in a short time period
 	sleep(1)
+
 	page = requests.get(page) 
 	tree = html.fromstring(page.text)
 
@@ -36,16 +39,7 @@ def crawl(page):
 			and  link[2].endswith(".jpeg")==False and  link[2].endswith(".ogv")==False 
 			and  link[2].endswith(".pdf")==False and link[2].endswith(".png")==False 
 			and link[2].endswith(".css")==False and link[2].endswith(".js")==False 
-			and link[2].endswith(".ico")==False and link[2].endswith(".xml")==False))
-			and link[2].startswith("https://www.eecs.umich.edu/~smbrain")==False
-			and link[2].startswith("https://www.eecs.umich.edu/robots.txt")==False
-			and link[2].startswith("https://www.eecs.umich.edu/courses")==False
-			and link[2].startswith("https://www.eecs.umich.edu/etc/")==False
-			and link[2].startswith("https://www.eecs.umich.edu/~imarkov/5")==False
-			and link[2].startswith("https://www.eecs.umich.edu/etc/calendar")==False
-			and link[2].startswith("https://www.eecs.umich.edu/eecs/etc/calendar")==False
-			and link[2].startswith("https://www.eecs.umich.edu/techday")==False
-			and link[2].startswith("https://www.eecs.umich.edu/vlsipool")==False):
+			and link[2].endswith(".ico")==False and link[2].endswith(".xml")==False))):
 			newfoundlinks.append(link[2])
 	return newfoundlinks
 			 
@@ -55,6 +49,9 @@ def crawl(page):
 	 
 var = input('Please enter the number of urls that you want to crawl: ')
 found_links = ["http://www.eecs.umich.edu"]
+rp = robotparser.RobotFileParser()
+rp.set_url("http://eecs.umich.edu/robots.txt")
+rp.read()
 past_num = len(found_links)
 function_list = []
 end_condition = False
@@ -62,23 +59,26 @@ end_condition = False
 while True:
 	for all_found in found_links:	
 		#print all_found
-		function_list = crawl(all_found)
-		for boom in function_list:
-			if boom not in found_links:
-				found_links.append(boom)
-				#print boom
-				if len(found_links)>var:
-					end_condition = True
+		if(rp.can_fetch("*",all_found)):
+			function_list = crawl(all_found)
+			for boom in function_list:
+				if boom not in found_links:
+					found_links.append(boom)
+					#comment out the following line if you do not want the urls tp be printed to the terminal
+					print boom
+					if len(found_links)>var:
+						end_condition = True
+				if end_condition:
+					break
+			function_list[:]
 			if end_condition:
 				break
-		function_list[:]
 		if end_condition:
-			break
-
+				break
 	if end_condition:
 		break
 
-print "{}{}{}".format("The crawler successfully found ",var," links!")
+print "{0}{1}{2}".format("The crawler successfully found ",var," links!")
 
 '''
 print "------------------------------------------------------"

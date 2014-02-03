@@ -59,8 +59,8 @@ worddic = {}
 print
 
 iter_num = 0
-for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
-    words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
+for filename in os.listdir('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'):
+    words = open('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'+'/'+filename,'r')
     readfile = words.read()
     readfile = stripSGML(readfile)
     readfile = spacePeriod(readfile)
@@ -81,7 +81,7 @@ for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
 
 
 
-print "{}{}{}{}{}{}{}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
+print "{0}{1}{2}{3}{4}{5}{6}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
 n1 = num_words
 v1 = len(worddic)
 
@@ -91,8 +91,8 @@ worddic = {}
 
 
 iter_num = 0
-for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
-    words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
+for filename in os.listdir('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'):
+    words = open('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'+'/'+filename,'r')
     readfile = words.read()
     readfile = stripSGML(readfile)
     readfile = spacePeriod(readfile)
@@ -112,7 +112,7 @@ for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
         break
 
 
-print "{}{}{}{}{}{}{}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
+print "{0}{1}{2}{3}{4}{5}{6}".format("There are ",num_words," total words and ",len(worddic)," total unique words in the collection subset composed of the first ",iter_num-1," documents in the collection")
 print
 n2 = num_words
 v2 = len(worddic)
@@ -126,19 +126,19 @@ beta = (logv2 - logv1)/(logn2- logn1)
 K = v1/(n1**beta)
 
 
-print "{}".format("We now have two sets of data so we can calculate constants K and beta using:")
-print "{}{}{}{}".format("N1 = ",n1," and V1 = ",v1)
-print "{}{}{}{}".format("N2 = ",n2," and V2 = ",v2)
+print "{0}".format("We now have two sets of data so we can calculate constants K and beta using:")
+print "{0}{1}{2}{3}".format("N1 = ",n1," and V1 = ",v1)
+print "{0}{1}{2}{3}".format("N2 = ",n2," and V2 = ",v2)
 print
-print "{}".format("After solving that system of equations using Heap's Law, we can determine the constants:")
-print "{}{}{}{}".format("K = ",K," and beta = ",beta)
+print "{0}".format("After solving that system of equations using Heap's Law, we can determine the constants:")
+print "{0}{1}{2}{3}".format("K = ",K," and beta = ",beta)
 print
 mil_result = int((1000000**beta)*K)
 hun_mil_result = int((100000000**beta)*K)
 
-print "{}".format("We can now plug our constants into the Heap's Law equation to predict that:")
-print "{}{}{}".format("Corpus size of 1,000,000 words, the vocabulary size would be around ",mil_result," unique words")
-print "{}{}{}".format("Corpus size of 100,000,000 words, the vocabulary size would be around ",hun_mil_result," unique words")
+print "{0}".format("We can now plug our constants into the Heap's Law equation to predict that:")
+print "{0}{1}{2}".format("Corpus size of 1,000,000 words, the vocabulary size would be around ",mil_result," unique words")
+print "{0}{1}{2}".format("Corpus size of 100,000,000 words, the vocabulary size would be around ",hun_mil_result," unique words")
 print
 
 

@@ -55,8 +55,8 @@ def isStopword(word):
 num_words = 0
 worddic = {}
 print
-for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
-    words = open('/Users/patrickwilson/Downloads/cranfieldDocs/'+filename,'r')
+for filename in os.listdir('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'):
+    words = open('/afs/umich.edu/user/p/d/pdubslax/EECS_498/cranfieldDocs'+'/'+filename,'r')
     readfile = words.read()
     readfile = stripSGML(readfile)
     readfile = spacePeriod(readfile)
@@ -72,11 +72,11 @@ for filename in os.listdir('/Users/patrickwilson/Downloads/cranfieldDocs'):
                 worddic[word] = 1
     num_words += len(words)
 
-print "{}{}{}".format("There are ",num_words," words total in the collection")
+print "{0}{1}{2}".format("There are ",num_words," words total in the collection")
 print
-print "{}{}{}".format("There are ",len(worddic)," unique words total in the collection")
+print "{0}{1}{2}".format("There are ",len(worddic)," unique words total in the collection")
 print
-print "{}".format("The top 20 words are:")
+print "{0}".format("The top 20 words are:")
 print
 ############################################################
 iters = 0
@@ -95,10 +95,10 @@ for word, times in sorted_count:
         print
         break
 
-print "{}".format("According to the class provided stopword list, the following of those top 20 are stopwords:")
+print "{0}".format("According to the class provided stopword list, the following of those top 20 are stopwords:")
 print stopword20
 print
-print "{}".format("And the following words are not:")
+print "{0}".format("And the following words are not:")
 print goword20
 print
 
@@ -109,8 +109,8 @@ for word,times in sorted_count:
     iter_num += 1
     running_total_words += times
     if running_total_words>final_number:
-        print "{}{}".format(iter_num," UNIQUE WORDS ----- is the minimum number of unique words to account for 25 percent of total words")
-        print "{}{}{}{}{}{}{}".format("25% of the total words is equal to ",final_number," words and ",iter_num," unique words account for ",running_total_words, " total words")
+        print "{0}{1}".format(iter_num," UNIQUE WORDS ----- is the minimum number of unique words to account for 25 percent of total words")
+        print "{0}{1}{2}{3}{4}{5}{6}".format("25% of the total words is equal to ",final_number," words and ",iter_num," unique words account for ",running_total_words, " total words")
 
         print
         break
